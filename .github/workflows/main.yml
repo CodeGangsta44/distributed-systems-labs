@@ -19,5 +19,5 @@ jobs:
         host: ${{ secrets.VM_HOST }}
         username: ${{ secrets.VM_USERNAME }}
         key: ${{ secrets.VM_KEY }}
-        source: "target/todo.jar"
+        source: "target/todo.war"
         target: "/home/azureuser/server"
