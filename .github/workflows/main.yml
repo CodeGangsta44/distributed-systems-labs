@@ -6,6 +6,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
+    - name: Setup Java JDK
+      uses: actions/setup-java@v3.6.0
+      with:
+        java-version: 17
+        distribution: zulu
     - name: package archive
       run: mvn -B package --file pom.xml -Djar.finalName=todo
     - name: copy file via ssh password
