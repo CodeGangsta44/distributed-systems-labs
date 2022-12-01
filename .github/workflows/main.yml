@@ -18,6 +18,6 @@ jobs:
     - name: debug 2
       run: ls target
     - name: save key to file
-      run: echo ${{ secrets.VM_KEY } > key
+      run: echo ${{ secrets.VM_KEY }} > key
     - name: copy files to server
       run: scp -i key target/todo.war ${{ secrets.VM_USERNAME }}@${{ secrets.VM_HOST }}:/home/${{ secrets.VM_USERNAME }}/server
