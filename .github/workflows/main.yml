@@ -12,7 +12,7 @@ jobs:
         java-version: 17
         distribution: zulu
     - name: package archive
-      run: mvn -B package --file pom.xml -Dwar.finalName=todo
+      run: mvn -B package --file pom.xml
     - name: save key to file
       run: echo "${{ secrets.VM_KEY }}" > key
     - name: set permissions on file
