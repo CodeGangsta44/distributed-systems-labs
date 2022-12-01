@@ -12,7 +12,7 @@ jobs:
         java-version: 17
         distribution: zulu
     - name: package archive
-      run: mvn -B package --file pom.xml -Djar.finalName=todo
+      run: mvn -B package --file pom.xml -Dwar.finalName=todo
     - name: debug 1
       run: ls
     - name: debug 2
