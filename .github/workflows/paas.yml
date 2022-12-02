@@ -1,0 +1,21 @@
+name: Deploy to App Service
+on: workflow_dispatch
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Setup Java JDK
+      uses: actions/setup-java@v3.6.0
+      with:
+        java-version: 17
+        distribution: zulu
+    - name: package archive
+      run: mvn -B package --file pom.xml
+    - name: Azure WebApp Deploy
+      uses: Azure/webapps-deploy@v2
+      with:
+        app-name: todo-rd-kpi
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        package: todo.war
