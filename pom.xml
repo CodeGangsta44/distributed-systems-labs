@@ -11,7 +11,7 @@
 	<groupId>edu.kpi</groupId>
 	<artifactId>todo-app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>todo-app</name>
 	<description>TODO Application</description>
 	<properties>
@@ -61,7 +61,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>todo</finalName>
+		<finalName>app</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
