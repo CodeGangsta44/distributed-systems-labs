@@ -29,5 +29,5 @@ jobs:
     - name: set permissions on file
       run: chmod 400 key
     - name: Restart container
-      run: ssh -i key -o StrictHostKeyChecking=no ${{ secrets.VM_USERNAME }}@${{ secrets.VM_HOST }} 'sudo docker stop $CONTAINER_NAME && sudo docker rm $CONTAINER_NAME && sudo docker pull $CONTAINER_IMAGE:latest && sudo docker run $CONTAINER_PARAMETERS --name $CONTAINER_NAME --restart unless-stopped -d $CONTAINER_IMAGE'
+      run: ssh -i key -o StrictHostKeyChecking=no ${{ secrets.VM_USERNAME }}@${{ secrets.VM_HOST }} '(sudo docker stop $CONTAINER_NAME ; sudo docker rm $CONTAINER_NAME) ; (sudo docker pull $CONTAINER_IMAGE:latest && sudo docker run $CONTAINER_PARAMETERS --name $CONTAINER_NAME --restart unless-stopped -d $CONTAINER_IMAGE)'
     
