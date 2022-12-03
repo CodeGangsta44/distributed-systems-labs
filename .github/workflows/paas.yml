@@ -11,7 +11,7 @@ jobs:
       with:
         java-version: 17
         distribution: zulu
-    - name: package archive
+    - name: Package
       run: mvn -B package --file pom.xml
     - name: Azure WebApp Deploy
       uses: Azure/webapps-deploy@v2
