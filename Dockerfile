@@ -1,4 +1,10 @@
+FROM maven:3 as BUILD_IMAGE
+RUN mkdir -p /workspace
+WORKDIR /workspace
+COPY pom.xml /workspace
+COPY src /workspace/src
+RUN mvn -B package
+
 FROM openjdk:17
-ARG JAR_FILE=target/app.jar
-COPY ${JAR_FILE} app.jar
+COPY --from=BUILD_IMAGE /workspace/target/app.jar .
 ENTRYPOINT ["java","-jar","/app.jar"]
