@@ -18,6 +18,6 @@ jobs:
     - name: set permissions on file
       run: chmod 400 key
     - name: copy files to server
-      run: scp -i key -o StrictHostKeyChecking=no target/todo.war ${{ secrets.VM_USERNAME }}@${{ secrets.VM_HOST }}:/home/${{ secrets.VM_USERNAME }}/server
+      run: scp -i key -o StrictHostKeyChecking=no target/app.jar ${{ secrets.VM_USERNAME }}@${{ secrets.VM_HOST }}:/home/${{ secrets.VM_USERNAME }}/server
     - name: restart app
       run: ssh -i key -o StrictHostKeyChecking=no ${{ secrets.VM_USERNAME }}@${{ secrets.VM_HOST }} "sudo systemctl restart todo-app.service"
