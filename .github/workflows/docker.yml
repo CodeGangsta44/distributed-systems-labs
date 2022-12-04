@@ -43,5 +43,5 @@ jobs:
     - name: SCP docker-compose.yaml to server
       run: scp -i key -o StrictHostKeyChecking=no docker-compose.yaml ${{ secrets.VM_USERNAME }}@${{ secrets.VM_HOST }}:/home/${{ secrets.VM_USERNAME }}/composed
     - name: Restart container
-      run: ssh -i key -o StrictHostKeyChecking=no ${{ secrets.VM_USERNAME }}@${{ secrets.VM_HOST }} 'sudo docker-compose down -v ; (sudo docker pull $CONTAINER_IMAGE:latest && sudo docker-compose up -d -f /home/${{ secrets.VM_USERNAME }}/composed/docker-compose.yaml)'
+      run: ssh -i key -o StrictHostKeyChecking=no ${{ secrets.VM_USERNAME }}@${{ secrets.VM_HOST }} 'sudo docker-compose down -v ; (sudo docker pull $CONTAINER_IMAGE:latest && sudo docker-compose -f /home/${{ secrets.VM_USERNAME }}/composed/docker-compose.yaml up -d)'
 
