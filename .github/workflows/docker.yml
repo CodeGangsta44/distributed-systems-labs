@@ -20,7 +20,7 @@ jobs:
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGE }}:latest
   deploy:
-    name: Deploy
+    name: Deploy as simple container
     runs-on: ubuntu-latest
     needs: [build]
     steps:
@@ -30,4 +30,17 @@ jobs:
       run: chmod 400 key
     - name: Restart container
       run: ssh -i key -o StrictHostKeyChecking=no ${{ secrets.VM_USERNAME }}@${{ secrets.VM_HOST }} '(sudo docker stop $CONTAINER_NAME ; sudo docker rm $CONTAINER_NAME) ; (sudo docker pull $CONTAINER_IMAGE:latest && sudo docker run $CONTAINER_PARAMETERS --name $CONTAINER_NAME --restart unless-stopped -d $CONTAINER_IMAGE)'
-    
+  deploy-composed:
+    name: Deploy composed
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+    - name: Save key to file
+      run: echo "${{ secrets.VM_KEY }}" > key
+    - name: Set permissions on file
+      run: chmod 400 key
+    - name: SCP docker-compose.yaml to server
+      run: scp -i key -o StrictHostKeyChecking=no docker-composed.yaml ${{ secrets.VM_USERNAME }}@${{ secrets.VM_HOST }}:/home/${{ secrets.VM_USERNAME }}/composed
+    - name: Restart container
+      run: ssh -i key -o StrictHostKeyChecking=no ${{ secrets.VM_USERNAME }}@${{ secrets.VM_HOST }} 'sudo docker-compose down -v ; (sudo docker pull $CONTAINER_IMAGE:latest && sudo docker-compose -d -f /home/${{ secrets.VM_USERNAME }}/composed/docker-compose.yaml) up'
+
