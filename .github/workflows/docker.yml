@@ -40,10 +40,8 @@ jobs:
       run: echo "${{ secrets.VM_KEY }}" > key
     - name: Set permissions on file
       run: chmod 400 key
-    - name: Debug
-      run: ls -l
     - name: SCP docker-compose.yaml to server
-      run: scp -i key -o StrictHostKeyChecking=no docker-composed.yaml ${{ secrets.VM_USERNAME }}@${{ secrets.VM_HOST }}:/home/${{ secrets.VM_USERNAME }}/composed
+      run: scp -i key -o StrictHostKeyChecking=no docker-compose.yaml ${{ secrets.VM_USERNAME }}@${{ secrets.VM_HOST }}:/home/${{ secrets.VM_USERNAME }}/composed
     - name: Restart container
       run: ssh -i key -o StrictHostKeyChecking=no ${{ secrets.VM_USERNAME }}@${{ secrets.VM_HOST }} 'sudo docker-compose down -v ; (sudo docker pull $CONTAINER_IMAGE:latest && sudo docker-compose -d -f /home/${{ secrets.VM_USERNAME }}/composed/docker-compose.yaml) up'
 
