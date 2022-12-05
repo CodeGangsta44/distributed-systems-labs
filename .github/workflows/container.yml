@@ -1,4 +1,4 @@
-name: Deploy to Docker
+name: Deploy to container
 on: workflow_dispatch
 jobs:
   build:
@@ -44,4 +44,23 @@ jobs:
       run: scp -i key -o StrictHostKeyChecking=no docker-compose.yaml ${{ secrets.VM_USERNAME }}@${{ secrets.VM_HOST }}:/home/${{ secrets.VM_USERNAME }}/composed
     - name: Restart container
       run: ssh -i key -o StrictHostKeyChecking=no ${{ secrets.VM_USERNAME }}@${{ secrets.VM_HOST }} 'sudo docker-compose -f /home/${{ secrets.VM_USERNAME }}/composed/docker-compose.yaml down -v ; (sudo docker pull $CONTAINER_IMAGE:latest && sudo docker-compose -f /home/${{ secrets.VM_USERNAME }}/composed/docker-compose.yaml up -d)'
+  deploy-k8s:
+    name: Deploy to Kubernetes
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+    - uses: actions/checkout@master
+    - uses: azure/aks-set-context@v1
+      with:
+        creds: '${{ secrets.AZURE_CREDENTIALS }}' # Azure credentials
+        resource-group: '${{ secrets.AKS_RESOURCE_GROUP }}'
+        cluster-name: '${{ secrets.AKS_CLUSTER_NAME }}'
+        id: login
+    - name: Deploy to Kubernetes cluster
+      uses: Azure/k8s-deploy@v3.1
+      with:
+        action: deploy
+        strategy: basic
 
+        private-cluster: true
+        manifests: k8s/
