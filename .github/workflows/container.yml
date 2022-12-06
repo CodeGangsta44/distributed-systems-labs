@@ -21,7 +21,7 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGE }}:$APP_VERSION
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGE }}:${{ env.APP_VERSION }}
   deploy:
     name: Deploy as simple container
     runs-on: ubuntu-latest
