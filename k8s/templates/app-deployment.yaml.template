@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
         - name: todo-app
-          image: rdcloudsystems/todo-app:latest
+          image: rdcloudsystems/todo-app:${APP_VERSION}
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
