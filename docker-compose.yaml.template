@@ -14,7 +14,7 @@ services:
   app:
     depends_on:
       - mysqldb
-    image: rdcloudsystems/todo-app
+    image: rdcloudsystems/todo-app:${APP_VERSION}
     restart: on-failure
     ports:
       - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
