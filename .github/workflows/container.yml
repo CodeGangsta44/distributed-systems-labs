@@ -53,12 +53,14 @@ jobs:
     - uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-    - uses: azure/aks-set-context@v3.2
+    - uses: azure/aks-set-context@v3
       with:
         resource-group: '${{ secrets.AKS_RESOURCE_GROUP }}'
         cluster-name: '${{ secrets.AKS_CLUSTER_NAME }}'
+    - name: Debug
+      run: kubectl get deployments
     - name: Deploy to Kubernetes cluster
-      uses: Azure/k8s-deploy@v3.1
+      uses: Azure/k8s-deploy@v4
       with:
         action: deploy
         strategy: basic
