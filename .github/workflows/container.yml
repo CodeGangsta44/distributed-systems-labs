@@ -38,7 +38,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: Configure templates
-      run: envsubst < docker-compose.yaml.template > docker-compose.yaml
+      run: envsubst '${APP_VERSION}' < docker-compose.yaml.template > docker-compose.yaml
     - name: Debug
       run: cat docker-compose.yaml
     - name: Save key to file
