@@ -1,5 +1,7 @@
 name: Deploy to container
 on: workflow_dispatch
+env:
+  APP_VERSION: ${{ github.run_id }}
 jobs:
   build:
     name: Build
@@ -18,7 +20,7 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGE }}:latest
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGE }}:$APP_VERSION
   deploy:
     name: Deploy as simple container
     runs-on: ubuntu-latest
@@ -59,6 +61,8 @@ jobs:
         cluster-name: '${{ secrets.AKS_CLUSTER_NAME }}'
     - name: Debug 1
       run: kubectl get deployments
+    - name: Configure templates
+      run: envsubst < ./k8s/templates/app-deployment.yaml.template > ./k8s/app-deployment.yaml
     - name: Deploy to Kubernetes cluster
       uses: Azure/k8s-deploy@v4
       with:
