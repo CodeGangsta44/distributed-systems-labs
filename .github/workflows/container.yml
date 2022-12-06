@@ -39,6 +39,8 @@ jobs:
     - uses: actions/checkout@master
     - name: Configure templates
       run: envsubst < docker-compose.yaml.template > docker-compose.yaml
+    - name: Debug
+      run: cat docker-compose.yaml
     - name: Save key to file
       run: echo "${{ secrets.VM_KEY }}" > key
     - name: Set permissions on file
